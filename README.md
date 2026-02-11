@@ -1,27 +1,71 @@
-# TablogsPlugins
+## Local Development
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+To work on this library locally with another project (e.g., `tablogs_mobile_app`), follow these steps:
 
-## Development server
+### 1. Build and Watch the Library
+In this library project (`tablogs-plugins`), run the build command in watch mode:
+```bash
+npm run watch
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### 2. Link the Library in the Application
+In your application project (`tablogs_mobile_app`):
 
-## Code scaffolding
+1.  Update `package.json` to point to the local build:
+    ```json
+    "dependencies": {
+      "form": "file:../tablogs-plugins/dist/form"
+    }
+    ```
+2.  Run `npm install`.
+3.  Enable `preserveSymlinks` in `angular.json` under the `build` options and in `tsconfig.json` to ensure the application can resolve dependencies correctly:
+    
+    **angular.json**:
+    ```json
+    "architect": {
+      "build": {
+        "options": {
+          "preserveSymlinks": true
+        }
+      }
+    }
+    ```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+    **tsconfig.json**:
+    ```json
+    "compilerOptions": {
+      "preserveSymlinks": true
+    }
+    ```
 
-## Build
+This setup allows you to make changes in the library and have them immediately reflected in the application without needing to publish to a registry.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+ng generate component my-feature --project=my-plugin --standalone
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Generate a New Component
 
-## Running end-to-end tests
+To generate a new component within a specific plugin, use the following command:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+ng generate component <component-name> --project=<project-name>
+```
 
-## Further help
+Example for generating a component in the `form` project:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+ng generate component components/my-new-component --project=form
+```-+-+-+-+-+
+
+
+
+sometimes it dont work 
+
+plugin
+rm -rf .angular/cache && npm run watch form
+
+web
+ng build --configuration=development && ng serve
+
+mobile
+ng build --configuration=development && ionic  serve
